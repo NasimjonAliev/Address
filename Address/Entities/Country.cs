@@ -1,6 +1,5 @@
 ﻿using Address.Entities;
 using Address.Entities.Common;
-using System.Text.Json.Serialization;
 
 namespace Address.Models;
 
