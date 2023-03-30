@@ -1,6 +1,8 @@
 using Address.Context;
 using Address.Repositories.Cities;
 using Address.Repositories.Countries;
+using Address.Repositories.Regions;
+using Address.Repositories.Streets;
 using MediatR;
 using System.Reflection;
 
@@ -11,6 +13,8 @@ builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 builder.Services.AddScoped<ICityRepository, CityRepository>();
 builder.Services.AddScoped<ICountryRepository, CountryRepository>();
+builder.Services.AddScoped<IRegionRepository, RegionRepository>();
+builder.Services.AddScoped<IStreetRepository, StreetRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

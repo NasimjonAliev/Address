@@ -13,4 +13,9 @@ public class CreateStreetCommand : IRequest<Street>
         Name = streetName;
         Number = streetNumber;
     }
+
+    public CreateStreetCommand(string name)
+    {
+        Name = name;
+    }
 }

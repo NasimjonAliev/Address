@@ -11,6 +11,5 @@ public class City : BaseEntity
     public int RegionId { get; set; }
     public Region Region { get; set; }
 
-    [JsonIgnore]
     public ICollection<Street> Streets { get; set; }
 }

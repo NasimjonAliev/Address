@@ -1,5 +1,21 @@
-﻿namespace Address.Handlers.Streets;
+﻿using Address.Entities;
+using Address.Queries.Streets;
+using Address.Repositories.Streets;
+using MediatR;
 
-public class GetStreetListHandler
+namespace Address.Handlers.Streets;
+
+public class GetStreetListHandler : IRequestHandler<GetStreetListQuery, List<Street>>
 {
+    private readonly IStreetRepository _streetRepository;
+
+    public GetStreetListHandler(IStreetRepository streetRepository)
+    {
+        _streetRepository = streetRepository;
+    }
+
+    public async Task<List<Street>> Handle(GetStreetListQuery query, CancellationToken cancellationToken)
+    {
+        return await _streetRepository.GetStreetListAsync();
+    }
 }
