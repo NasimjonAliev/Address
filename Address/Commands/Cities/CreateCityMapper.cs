@@ -7,6 +7,6 @@ public class CreateCityMapper : Profile
 {
     CreateCityMapper()
     {
-        CreateMap<CreateCityCommand, City>();
+        CreateMap<City, CreateCityCommand> ().ReverseMap(); ;
     }
 }

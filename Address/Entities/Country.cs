@@ -11,6 +11,5 @@ public class Country : BaseEntity
     public string Mainland { get; set; }
     public string Type { get; set; }
 
-
     public ICollection<Region> Regions { get; set; }
 }

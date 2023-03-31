@@ -1,4 +1,5 @@
 ﻿using Address.Context;
+using AutoMapper;
 using MediatR;
 
 namespace Address.Commands.Countries;
@@ -16,10 +17,12 @@ public class UpdateCountryCommand : IRequest<int>
     public class UpdateCountryHandler : IRequestHandler<UpdateCountryCommand, int>
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public UpdateCountryHandler(ApplicationDbContext context)
+        public UpdateCountryHandler(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<int> Handle(UpdateCountryCommand command, CancellationToken cancellationToken)
@@ -27,6 +30,7 @@ public class UpdateCountryCommand : IRequest<int>
             var country = _context.Countries.Where(a => a.Id == command.Id).FirstOrDefault();
             if (country == null)
                 return default;
+            _mapper.Map(command, country);
 
             country.Name = command.Name;
             country.Code = command.Code;
@@ -34,6 +38,7 @@ public class UpdateCountryCommand : IRequest<int>
             country.Population = command.Population;
             country.Mainland = command.Mainland;
             country.Type = command.Type;
+
             await _context.SaveChangesAsync();
 
             return country.Id;
