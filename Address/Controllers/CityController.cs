@@ -1,5 +1,4 @@
 ﻿using Address.Commands.Cities;
-using Address.Entities;
 using Address.Queries.Cities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -18,47 +17,33 @@ public class CityController : Controller
     }
 
     [HttpGet]
-    public async Task<List<City>> GetCityListAsync()
+    public async Task<IActionResult> GetAllCity()
     {
-        var city = await mediator.Send(new GetCityListQuery());
-
-        return city;
+        return Ok(await mediator.Send(new GetAllCityQuery()));
     }
 
-    [HttpGet("cityId")]
-    public async Task<City> GetCityByIdAsync(int cityId)
+    [HttpGet("Id")]
+    public async Task<IActionResult> GetCityById(int id)
     {
-        var city = await mediator.Send(new GetCityByIdQuery() { Id = cityId });
-
-        return city;
+        return Ok(await mediator.Send(new GetCityByIdQuery { Id = id }));
     }
 
     [HttpPost]
-    public async Task<City> AddCityAsync(City city)
+    public async Task<IActionResult> CreateCity(CreateCityCommand city)
     {
-        var cityAdd = await mediator.Send(new CreateCityCommand(
-            city.Name,
-            city.PostIndex,
-            city.DistrictName));
-
-        return cityAdd;
+        return Ok(await mediator.Send(city));
     }
 
-    [HttpPut]
-    public async Task<int> UpdateCityAsync(City city)
+    [HttpPut("Id")]
+    public async Task<IActionResult> UpdateCity(int id, UpdateCityCommand command)
     {
-        var cityUpdate = await mediator.Send(new UpdateCityCommand(
-            city.Id,
-            city.Name,
-            city.PostIndex,
-            city.DistrictName));
-
-        return cityUpdate;
+        command.Id = id;
+        return Ok(await mediator.Send(command));
     }
 
-    [HttpDelete]
-    public async Task<int> DeleteCityAsync(int Id)
+    [HttpDelete("Id")]
+    public async Task<IActionResult> DeleteCity(int id)
     {
-        return await mediator.Send(new DeleteCityCommand() { Id = Id });
+        return Ok(await mediator.Send(new DeleteCityCommand { Id = id }));
     }
 }

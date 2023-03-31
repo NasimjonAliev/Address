@@ -12,10 +12,6 @@ public class CityConfiguration : IEntityTypeConfiguration<City>
             .HasMaxLength(10)
             .IsRequired();
 
-        builder.Property(t => t.DistrictName)
-            .HasMaxLength(50)
-            .IsRequired(false);
-
         builder.HasOne(c => c.Region)
             .WithMany(r => r.Cities)
             .HasForeignKey(r=> r.RegionId)

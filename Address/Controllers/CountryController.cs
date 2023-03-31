@@ -1,5 +1,4 @@
 ﻿using Address.Commands.Countries;
-using Address.Models;
 using Address.Queries.Countries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -18,45 +17,33 @@ public class CountryController : Controller
     }
 
     [HttpGet]
-    public async Task<List<Country>> GetCountryListAsync()
+    public async Task<IActionResult> GetAllCountry()
     {
-        var country = await mediator.Send(new GetCountryListQuery());
-
-        return country;
+        return Ok(await mediator.Send(new GetAllCountryQuery()));        
     }
 
-    [HttpGet("countryId")]
-    public async Task<Country> GetCountyByIdAsync(int countryId)
+    [HttpGet("Id")]
+    public async Task<IActionResult> GetCountyById(int id)
     {
-        var country = await mediator.Send(new GetCountryByIdQuery() { Id = countryId });
-
-        return country;
+        return Ok(await mediator.Send(new GetCountryByIdQuery { Id = id }));
     }
 
     [HttpPost]
-    public async Task<Country> AddCountryAsync(Country country)
+    public async Task<IActionResult> AddCountry(CreateCountryCommand country)
     {
-        var countryAdd = await mediator.Send(new CreateCountryCommand(
-            country.Name,
-            country.Code));
-
-        return countryAdd;
+        return Ok(await mediator.Send(country));
     }
 
-    [HttpPut]
-    public async Task<int> UpdateCountryAsync(Country country)
+    [HttpPut("Id")]
+    public async Task<IActionResult> UpdateCountry(int id, UpdateCountryCommand command)
     {
-        var countryUpdate = await mediator.Send(new UpdateCountryCommand(
-            country.Id,
-            country.Name,
-            country.Code));
-
-        return countryUpdate;
+        command.Id = id;
+        return Ok(await mediator.Send(command));        
     }
 
-    [HttpDelete]
-    public async Task<int> DeleteCountryAsync(int Id)
+    [HttpDelete("Id")]
+    public async Task<IActionResult> DeleteCountry(int id)
     {
-        return await mediator.Send(new DeleteCountryCommand() { Id = Id });
+        return Ok(await mediator.Send(new DeleteCountryCommand { Id = id }));
     }
 }

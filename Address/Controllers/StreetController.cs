@@ -1,5 +1,4 @@
 ﻿using Address.Commands.Streets;
-using Address.Entities;
 using Address.Queries.Streets;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,45 +18,33 @@ public class StreetController : Controller
     }
 
     [HttpGet]
-    public async Task<List<Street>> GetStreetListAsync()
+    public async Task<IActionResult> GetAllStreet()
     {
-        var street = await mediator.Send(new GetStreetListQuery());
-
-        return street;
+        return Ok(await mediator.Send(new GetAllStreetQuery()));
     }
 
-    [HttpGet("streetId")]
-    public async Task<Street> GetStreetByIdAsync(int streetId)
+    [HttpGet("Id")]
+    public async Task<IActionResult> GetStreetById(int id)
     {
-        var street = await mediator.Send(new GetStreetByIdQuery() { Id = streetId });
-
-        return street;
+        return Ok(await mediator.Send(new GetStreetByIdQuery { Id = id }));
     }
 
     [HttpPost]
-    public async Task<Street> AddStreetAsync(Street street)
+    public async Task<IActionResult> CreateStreetCommand(CreateStreetCommand street)
     {
-        var streetAdd = await mediator.Send(new CreateStreetCommand(
-            street.Name,
-            street.Number));
-
-        return streetAdd;
+        return Ok(await mediator.Send(street));
     }
 
-    [HttpPut]
-    public async Task<int> UpdateStreetAsync(Street street)
+    [HttpPut("Id")]
+    public async Task<IActionResult> UpdateStreetCommand(int id, UpdateStreetCommand command)
     {
-        var streetUpdate = await mediator.Send(new UpdateStreetCommand(
-            street.Id,
-            street.Name,
-            street.Number));
-
-        return streetUpdate;
+        command.Id = id;
+        return Ok(await mediator.Send(command));
     }
 
-    [HttpDelete]
-    public async Task<int> DeleteStreetAsync(int Id)
+    [HttpDelete("Id")]
+    public async Task<IActionResult> DeleteStreetCommand(int id)
     {
-        return await mediator.Send(new DeleteStreetCommand() { Id = Id });
+        return Ok(await mediator.Send(new DeleteStreetCommand { Id = id }));
     }
 }

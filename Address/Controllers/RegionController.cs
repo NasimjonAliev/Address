@@ -1,5 +1,4 @@
 ﻿using Address.Commands.Regions;
-using Address.Entities;
 using Address.Queries.Regions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,43 +18,37 @@ public class RegionController : Controller
     }
 
     [HttpGet]
-    public async Task<List<Region>> GetRegionListAsync()
+    public async Task<IActionResult> GetAllRegion()
     {
-        var region = await mediator.Send(new GetRegionListQuery());
-
-        return region;
+        return Ok(await mediator.Send(new GetAllRegionQuery()));
     }
 
-    [HttpGet("regionId")]
-    public async Task<Region> GetRegionByIdAsync(int regionId)
+    [HttpGet("Id")]
+    public async Task<IActionResult> GetRegionById(int id)
     {
-        var region = await mediator.Send(new GetRegionByIdQuery() { Id = regionId });
-
-        return region;
+        return Ok(await mediator.Send(new GetRegionByIdQuery{ Id = id }));
     }
 
     [HttpPost]
-    public async Task<Region> AddRegionAsync(Region region)
+    public async Task<IActionResult> AddRegion(CreateRegionCommand region)
     {
-        var regionAdd = await mediator.Send(new CreateRegionCommand(
-            region.Name));
-
-        return regionAdd;
+        return Ok(await mediator.Send(region));
     }
 
-    [HttpPut]
-    public async Task<int> UpdateRegionAsync(Region region)
+    [HttpPut("Id")]
+    public async Task<IActionResult> UpdateRegion(int id, UpdateRegionCommand command)
     {
-        var regionUpdate = await mediator.Send(new UpdateRegionCommand(
-            region.Id,
-            region.Name));
+        command.Id = id;
 
-        return regionUpdate;
+        return Ok(await mediator.Send(command));
     }
 
-    [HttpDelete]
-    public async Task<int> DeleteRegionAsync(int Id)
+    [HttpDelete("Id")]
+    public async Task<IActionResult> DeleteRegion(int id)
     {
-        return await mediator.Send(new DeleteRegionCommand() { Id = Id });
+        return Ok(await mediator.Send(new DeleteRegionCommand { Id = id }));
     }
 }
+
+
+
