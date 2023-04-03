@@ -7,6 +7,6 @@ public class CreateCountryMapper : Profile
 {
     public CreateCountryMapper()
     {
-        CreateMap<CreateCountryCommand, Country>();
+        CreateMap<Country, CreateCountryCommand> ();
     }
 }

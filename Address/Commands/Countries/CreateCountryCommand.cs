@@ -30,12 +30,12 @@ public class CreateCountryCommand : IRequest<int>
         {
             var country = _mapper.Map<Country>(command);
 
-            country.Name = command.Name;
-            country.Code = command.Code;
-            country.Area = command.Area;
-            country.Population = command.Population;
-            country.Mainland = command.Mainland;
-            country.Type = command.Type;
+            //country.Name = command.Name;
+            //country.Code = command.Code;
+            //country.Area = command.Area;
+            //country.Population = command.Population;
+            //country.Mainland = command.Mainland;
+            //country.Type = command.Type;
            
             _context.Countries.Add(country);
             await _context.SaveChangesAsync();

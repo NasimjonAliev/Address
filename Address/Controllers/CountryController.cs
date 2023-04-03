@@ -31,6 +31,7 @@ public class CountryController : Controller
     [HttpPost]
     public async Task<IActionResult> AddCountry(CreateCountryCommand country)
     {
+
         return Ok(await mediator.Send(country));
     }
 

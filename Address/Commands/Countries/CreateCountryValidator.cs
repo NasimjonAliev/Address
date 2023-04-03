@@ -15,6 +15,5 @@ public class CreateCountryValidator : AbstractValidator<CreateCountryCommand>
         RuleFor(c => c.Mainland).MaximumLength(50);
 
         RuleFor(c => c.Population).NotNull().WithMessage("Заполните число население").MaximumLength(30);
-
     }
 }
