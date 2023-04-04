@@ -1,4 +1,4 @@
-﻿using Address.Models;
+﻿using Address.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

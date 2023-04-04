@@ -1,5 +1,4 @@
 ﻿using Address.Entities;
-using Address.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Address.Context;

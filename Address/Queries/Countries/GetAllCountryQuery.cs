@@ -1,5 +1,5 @@
 ﻿using Address.Context;
-using Address.Models;
+using Address.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

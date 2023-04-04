@@ -1,7 +1,6 @@
-﻿using Address.Entities;
-using Address.Entities.Common;
+﻿using Address.Entities.Common;
 
-namespace Address.Models;
+namespace Address.Entities;
 
 public class Country : BaseEntity
 {

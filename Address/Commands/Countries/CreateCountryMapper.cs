@@ -1,4 +1,4 @@
-﻿using Address.Models;
+﻿using Address.Entities;
 using AutoMapper;
 
 namespace Address.Commands.Countries;
@@ -7,6 +7,6 @@ public class CreateCountryMapper : Profile
 {
     public CreateCountryMapper()
     {
-        CreateMap<Country, CreateCountryCommand> ();
+        CreateMap<CreateCountryCommand, Country> ();
     }
 }

@@ -1,12 +1,12 @@
-﻿using Address.Entities;
-using AutoMapper;
+﻿//using Address.Entities;
+//using AutoMapper;
 
-namespace Address.Commands.Cities;
+//namespace Address.Commands.Cities;
 
-public class CreateCityMapper : Profile
-{
-    CreateCityMapper()
-    {
-        CreateMap<City, CreateCityCommand> ();
-    }
-}
+//public class CreateCityMapper : Profile
+//{
+//    CreateCityMapper()
+//    {
+//        CreateMap<City, CreateCityCommand> ();
+//    }
+//}

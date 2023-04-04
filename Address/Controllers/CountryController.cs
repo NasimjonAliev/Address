@@ -1,5 +1,6 @@
 ﻿using Address.Commands.Countries;
 using Address.Queries.Countries;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,42 +10,42 @@ namespace Address.Controllers;
 [ApiController]
 public class CountryController : Controller
 {
-    private readonly IMediator mediator;
+    private readonly IMediator _mediator;
+
 
     public CountryController(IMediator mediator)
     {
-        this.mediator = mediator;
+       _mediator = mediator;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAllCountry()
     {
-        return Ok(await mediator.Send(new GetAllCountryQuery()));        
+        return Ok(await _mediator.Send(new GetAllCountryQuery()));        
     }
 
     [HttpGet("Id")]
     public async Task<IActionResult> GetCountyById(int id)
     {
-        return Ok(await mediator.Send(new GetCountryByIdQuery { Id = id }));
+        return Ok(await _mediator.Send(new GetCountryByIdQuery { Id = id }));
     }
 
     [HttpPost]
     public async Task<IActionResult> AddCountry(CreateCountryCommand country)
     {
-
-        return Ok(await mediator.Send(country));
+        return Ok(await _mediator.Send(country));            
     }
 
     [HttpPut("Id")]
     public async Task<IActionResult> UpdateCountry(int id, UpdateCountryCommand command)
     {
         command.Id = id;
-        return Ok(await mediator.Send(command));        
+        return Ok(await _mediator.Send(command));        
     }
 
     [HttpDelete("Id")]
     public async Task<IActionResult> DeleteCountry(int id)
     {
-        return Ok(await mediator.Send(new DeleteCountryCommand { Id = id }));
+        return Ok(await _mediator.Send(new DeleteCountryCommand { Id = id }));
     }
 }

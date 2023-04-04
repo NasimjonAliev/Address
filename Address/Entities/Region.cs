@@ -1,5 +1,4 @@
 ﻿using Address.Entities.Common;
-using Address.Models;
 
 namespace Address.Entities;
 

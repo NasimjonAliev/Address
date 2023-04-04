@@ -20,7 +20,9 @@ public class DeleteCountryCommand : IRequest<int>
         public async Task<int> Handle(DeleteCountryCommand command, CancellationToken cancellationToken)
         {
             var country = await _context.Countries.Where(a => a.Id == command.Id).FirstOrDefaultAsync();
+
             _context.Countries.Remove(country);
+
             await _context.SaveChangesAsync();
             return country.Id;
         }

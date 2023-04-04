@@ -1,12 +1,12 @@
-﻿using Address.Entities;
-using AutoMapper;
+﻿//using Address.Entities;
+//using AutoMapper;
 
-namespace Address.Commands.Regions;
+//namespace Address.Commands.Regions;
 
-public class CreateRegionMapper : Profile
-{
-    public CreateRegionMapper()
-    {
-        CreateMap<CreateRegionCommand, Region>();
-    }
-}
+//public class CreateRegionMapper : Profile
+//{
+//    public CreateRegionMapper()
+//    {
+//        CreateMap<CreateRegionCommand, Region>();
+//    }
+//}

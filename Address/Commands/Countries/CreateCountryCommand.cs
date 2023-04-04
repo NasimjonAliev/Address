@@ -1,6 +1,5 @@
 ﻿using Address.Context;
 using Address.Entities;
-using Address.Models;
 using AutoMapper;
 using MediatR;
 
@@ -15,32 +14,28 @@ public class CreateCountryCommand : IRequest<int>
     public string Mainland { get; set; }
     public string Type { get; set; }
 
-    public class CreateCountryHandler : IRequestHandler<CreateCountryCommand, int>
+  
+}
+
+public class CreateCountryHandler : IRequestHandler<CreateCountryCommand, int>
+{
+    private readonly ApplicationDbContext _context;
+    private readonly IMapper _mapper;
+
+    public CreateCountryHandler(ApplicationDbContext context, IMapper mapper)
     {
-        private readonly ApplicationDbContext _context;
-        private readonly IMapper _mapper;
+        _context = context;
+        _mapper = mapper;
+    }
 
-        public CreateCountryHandler(ApplicationDbContext context, IMapper mapper)
-        {
-            _context = context;
-            _mapper = mapper;
-        }
+    public async Task<int> Handle(CreateCountryCommand command, CancellationToken cancellationToken)
+    {
+        var country = _mapper.Map<Country>(command);
 
-        public async Task<int> Handle(CreateCountryCommand command, CancellationToken cancellationToken)
-        {
-            var country = _mapper.Map<Country>(command);
 
-            //country.Name = command.Name;
-            //country.Code = command.Code;
-            //country.Area = command.Area;
-            //country.Population = command.Population;
-            //country.Mainland = command.Mainland;
-            //country.Type = command.Type;
-           
-            _context.Countries.Add(country);
-            await _context.SaveChangesAsync();
-            return country.Id;
-        }
+        _context.Countries.Add(country);
+        await _context.SaveChangesAsync();
+        return country.Id;
     }
 }
 

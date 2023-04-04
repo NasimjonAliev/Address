@@ -32,13 +32,6 @@ public class UpdateCountryCommand : IRequest<int>
                 return default;
             _mapper.Map(command, country);
 
-            country.Name = command.Name;
-            country.Code = command.Code;
-            country.Area = command.Area;
-            country.Population = command.Population;
-            country.Mainland = command.Mainland;
-            country.Type = command.Type;
-
             await _context.SaveChangesAsync();
 
             return country.Id;
