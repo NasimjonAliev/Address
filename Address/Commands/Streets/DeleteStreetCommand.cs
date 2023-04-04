@@ -7,26 +7,26 @@ namespace Address.Commands.Streets;
 public class DeleteStreetCommand : IRequest<int>
 {
     public int Id { get; set; }
+}
 
-    public class DeleteStreetHandler : IRequestHandler<DeleteStreetCommand, int>
+public class DeleteStreetHandler : IRequestHandler<DeleteStreetCommand, int>
+{
+    private readonly ApplicationDbContext _context;
+
+    public DeleteStreetHandler(ApplicationDbContext context)
     {
-        private readonly ApplicationDbContext _context;
+        _context = context;
+    }
 
-        public DeleteStreetHandler(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+    public async Task<int> Handle(DeleteStreetCommand command, CancellationToken cancellationToken)
+    {
+        var street = await _context.Streets.Where(a => a.Id == command.Id).FirstOrDefaultAsync();
 
-        public async Task<int> Handle(DeleteStreetCommand command, CancellationToken cancellationToken)
-        {
-            var street = await _context.Streets.Where(a => a.Id == command.Id).FirstOrDefaultAsync();
+        _context.Streets.Remove(street);
 
-            _context.Streets.Remove(street);
+        await _context.SaveChangesAsync();
 
-            await _context.SaveChangesAsync();
-
-            return street.Id;
-        }
+        return street.Id;
     }
 }
 

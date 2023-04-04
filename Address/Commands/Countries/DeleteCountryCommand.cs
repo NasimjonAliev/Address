@@ -7,24 +7,24 @@ namespace Address.Commands.Countries;
 public class DeleteCountryCommand : IRequest<int>
 {
     public int Id { get; set; }
+}
 
-    public class DeleteCountryHandler : IRequestHandler<DeleteCountryCommand, int>
+public class DeleteCountryHandler : IRequestHandler<DeleteCountryCommand, int>
+{
+    private readonly ApplicationDbContext _context;
+
+    public DeleteCountryHandler(ApplicationDbContext context)
     {
-        private readonly ApplicationDbContext _context;
+        _context = context;
+    }
 
-        public DeleteCountryHandler(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+    public async Task<int> Handle(DeleteCountryCommand command, CancellationToken cancellationToken)
+    {
+        var country = await _context.Countries.Where(a => a.Id == command.Id).FirstOrDefaultAsync();
 
-        public async Task<int> Handle(DeleteCountryCommand command, CancellationToken cancellationToken)
-        {
-            var country = await _context.Countries.Where(a => a.Id == command.Id).FirstOrDefaultAsync();
+        _context.Countries.Remove(country);
 
-            _context.Countries.Remove(country);
-
-            await _context.SaveChangesAsync();
-            return country.Id;
-        }
+        await _context.SaveChangesAsync();
+        return country.Id;
     }
 }

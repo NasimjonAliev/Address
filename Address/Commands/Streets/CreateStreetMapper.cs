@@ -1,12 +1,12 @@
-﻿//using Address.Entities;
-//using AutoMapper;
+﻿using Address.Entities;
+using AutoMapper;
 
-//namespace Address.Commands.Streets;
+namespace Address.Commands.Streets;
 
-//public class CreateStreetMapper : Profile
-//{
-//    public CreateStreetMapper()
-//    {
-//        CreateMap<CreateStreetCommand, Street>();
-//    }
-//}
+public class CreateStreetMapper : Profile
+{
+    public CreateStreetMapper()
+    {
+        CreateMap<CreateStreetCommand, Street>();
+    }
+}
