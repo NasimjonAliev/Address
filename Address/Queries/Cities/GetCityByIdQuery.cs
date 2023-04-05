@@ -1,28 +1,32 @@
 ﻿using Address.Context;
-using Address.Entities;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Address.Queries.Cities;
 
-public class GetCityByIdQuery : IRequest<City>
+public class GetCityByIdQuery : IRequest<GetCityByIdViewModel>
 {
     public int Id { get; set; }
+}
 
-    public class GetCityByIdQueryHandler : IRequestHandler<GetCityByIdQuery, City>
+public class GetCityByIdQueryHandler : IRequestHandler<GetCityByIdQuery, GetCityByIdViewModel>
+{
+    private readonly ApplicationDbContext _context;
+    private readonly IMapper _mapper;
+
+    public GetCityByIdQueryHandler(ApplicationDbContext context, IMapper mapper)
     {
-        private readonly ApplicationDbContext _context;
+        _context = context;
+        _mapper = mapper;
+    }
 
-        public GetCityByIdQueryHandler (ApplicationDbContext context)
-        {
-            _context = context;
-        }
+    public async Task<GetCityByIdViewModel> Handle(GetCityByIdQuery query, CancellationToken cancellationToken)
+    {
+        var city = await _context.Cities.Where(a => a.Id == query.Id).AsNoTracking()
+            .ProjectTo<GetCityByIdViewModel>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(cancellationToken);
 
-        public async Task<City> Handle (GetCityByIdQuery query, CancellationToken cancellationToken)
-        {
-            var city = await _context.Cities.Where(a => a.Id == query.Id).FirstOrDefaultAsync();
-
-            return city;
-        }
-    } 
+        return city;
+    }
 }

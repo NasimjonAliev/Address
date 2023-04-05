@@ -31,7 +31,9 @@ public class CreateCountryHandler : IRequestHandler<CreateCountryCommand, int>
         var country = _mapper.Map<Country>(command);
 
         _context.Countries.Add(country);
+
         await _context.SaveChangesAsync();
+
         return country.Id;
     }
 }

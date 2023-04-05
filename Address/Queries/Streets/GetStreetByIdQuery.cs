@@ -1,28 +1,31 @@
 ﻿using Address.Context;
-using Address.Entities;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Address.Queries.Streets;
 
-public class GetStreetByIdQuery : IRequest<Street>
+public class GetStreetByIdQuery : IRequest<GetStreetByIdViewModel>
 {
     public int Id { get; set; }
+}
+public class GetStreetByIdHandler : IRequestHandler<GetStreetByIdQuery, GetStreetByIdViewModel>
+{
+    private readonly ApplicationDbContext _context;
+    private readonly IMapper _mapper;
 
-    public class GetStreetByIdHandler : IRequestHandler<GetStreetByIdQuery, Street>
+    public GetStreetByIdHandler(ApplicationDbContext context, IMapper mapper)
     {
-        private readonly ApplicationDbContext _context;
+        _context = context;
+        _mapper = mapper;
+    }
 
-        public GetStreetByIdHandler(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+    public async Task<GetStreetByIdViewModel> Handle(GetStreetByIdQuery query, CancellationToken cancellationToken)
+    {
+        var street = await _context.Streets.Where(a => a.Id == query.Id).AsNoTracking()
+            .ProjectTo<GetStreetByIdViewModel>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(cancellationToken);
 
-        public async Task<Street> Handle(GetStreetByIdQuery query, CancellationToken cancellationToken)
-        {
-            var street = await _context.Streets.Where(a => a.Id == query.Id).FirstOrDefaultAsync();
-
-            return street;
-        }
+        return street;
     }
 }

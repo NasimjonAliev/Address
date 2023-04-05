@@ -1,28 +1,32 @@
 ﻿using Address.Context;
-using Address.Entities;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Address.Queries.Regions;
 
-public class GetRegionByIdQuery : IRequest<Region>
+public class GetRegionByIdQuery : IRequest<GetRegionByIdViewModel>
 {
     public int Id { get; set; }
+}
 
-    public class GetRegionByIdHandler : IRequestHandler<GetRegionByIdQuery, Region>
+public class GetRegionByIdHandler : IRequestHandler<GetRegionByIdQuery, GetRegionByIdViewModel>
+{
+    private readonly ApplicationDbContext _context;
+    private readonly IMapper _mapper;
+
+    public GetRegionByIdHandler(ApplicationDbContext context, IMapper mapper)
     {
-        private readonly ApplicationDbContext _context;
+        _context = context;
+        _mapper = mapper;
+    }
 
-        public GetRegionByIdHandler(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+    public async Task<GetRegionByIdViewModel> Handle(GetRegionByIdQuery query, CancellationToken cancellationToken)
+    {
+        var region = await _context.Regions.Where(a => a.Id == query.Id).AsNoTracking()
+            .ProjectTo<GetRegionByIdViewModel>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(cancellationToken);
 
-        public async Task<Region> Handle(GetRegionByIdQuery query, CancellationToken cancellationToken)
-        {
-            var region = await _context.Regions.Where(a => a.Id == query.Id).FirstOrDefaultAsync();
-
-            return region;
-        }
+        return region;
     }
 }

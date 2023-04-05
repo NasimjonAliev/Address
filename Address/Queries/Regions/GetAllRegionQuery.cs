@@ -1,27 +1,32 @@
 ﻿using Address.Context;
-using Address.Entities;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Address.Queries.Regions;
 
-public class GetAllRegionQuery : IRequest<List<Region>>
+public class GetAllRegionQuery : IRequest<IEnumerable<GetAllRegionViewModel>>
 {
-    public class GetAllRegionQueryHandler : IRequestHandler<GetAllRegionQuery, IEnumerable<Region>>
+}
+
+public class GetAllRegionQueryHandler : IRequestHandler<GetAllRegionQuery, IEnumerable<GetAllRegionViewModel>>
+{
+    private readonly ApplicationDbContext _context;
+    private readonly IMapper _mapper;
+
+    public GetAllRegionQueryHandler(ApplicationDbContext context, IMapper mapper)
     {
-        private readonly ApplicationDbContext _context;
+        _context = context;
+        _mapper = mapper;
+    }
 
-        public GetAllRegionQueryHandler(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+    public async Task<IEnumerable<GetAllRegionViewModel>> Handle(GetAllRegionQuery query, CancellationToken cancellationToken)
+    {
+        var region = await _context.Regions.AsNoTracking()
+            .ProjectTo<GetAllRegionViewModel>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
 
-        public async Task<IEnumerable<Region>> Handle(GetAllRegionQuery query, CancellationToken cancellationToken)
-        {
-            var region = await _context.Regions.ToListAsync();
-
-            return region;
-        }
+        return region;
     }
 }
 

@@ -1,5 +1,4 @@
 ﻿using Address.Context;
-using Address.Entities;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
@@ -23,8 +22,9 @@ public class GetAllCountryQueryHandler : IRequestHandler<GetAllCountryQuery, IEn
 
     public async Task<IEnumerable<GetAllCountryViewModel>> Handle(GetAllCountryQuery query, CancellationToken cancellationToken)
     {
-        var countryList = await _context.Countries.ToListAsync();
+        var countryList = await _context.Countries.AsNoTracking()
+            .ProjectTo<GetAllCountryViewModel>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
        
-        return _mapper.Map<IEnumerable<GetAllCountryViewModel>>(countryList);
+        return  countryList;
     }
 }

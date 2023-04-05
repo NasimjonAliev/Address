@@ -2,10 +2,12 @@
 using Address.Queries.Countries;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Address.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class CountryController : Controller

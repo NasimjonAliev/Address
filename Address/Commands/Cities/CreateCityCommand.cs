@@ -28,7 +28,9 @@ public class CreateCityHandler : IRequestHandler<CreateCityCommand, int>
         var city = _mapper.Map<City>(command);
 
         _context.Cities.Add(city);
+
         await _context.SaveChangesAsync();
+
         return city.Id;
     }
 }

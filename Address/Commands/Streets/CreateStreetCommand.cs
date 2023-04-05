@@ -28,7 +28,9 @@ public class CreateStreetHandler : IRequestHandler<CreateStreetCommand, int>
         var street = _mapper.Map<Street>(command);
 
         _context.Streets.Add(street);
+
         await _context.SaveChangesAsync();
+
         return street.Id;
     }
 }

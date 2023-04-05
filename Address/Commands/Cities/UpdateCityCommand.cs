@@ -25,6 +25,7 @@ public class UpdateCityHandler : IRequestHandler<UpdateCityCommand, int>
     public async Task<int> Handle(UpdateCityCommand command, CancellationToken cancellationToken)
     {
         var city = _context.Cities.Where(a => a.Id == command.Id).FirstOrDefault();
+
         if (city == null)
             return default;
 

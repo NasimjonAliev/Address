@@ -25,6 +25,7 @@ public class DeleteCountryHandler : IRequestHandler<DeleteCountryCommand, int>
         _context.Countries.Remove(country);
 
         await _context.SaveChangesAsync();
+
         return country.Id;
     }
 }

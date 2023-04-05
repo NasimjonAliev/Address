@@ -28,7 +28,9 @@ public class CreateRegionHandler : IRequestHandler<CreateRegionCommand, int>
         var region = _mapper.Map<Region>(command);
 
         _context.Regions.Add(region);
+
         await _context.SaveChangesAsync();
+
         return region.Id;
     }
 }

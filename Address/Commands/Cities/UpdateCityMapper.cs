@@ -5,8 +5,8 @@ namespace Address.Commands.Cities;
 
 public class UpdateCityMapper : Profile
 {
-    UpdateCityMapper()
+    public UpdateCityMapper()
     {
-        CreateMap<UpdateCityCommand, City> ();
+        CreateMap<UpdateCityCommand, City>();
     }
 }

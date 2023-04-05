@@ -14,6 +14,7 @@ public class UpdateCountryCommand : IRequest<int>
     public string Mainland { get; set; }
     public string Type { get; set; }
 }
+
 public class UpdateCountryHandler : IRequestHandler<UpdateCountryCommand, int>
 {
     private readonly ApplicationDbContext _context;
@@ -28,6 +29,7 @@ public class UpdateCountryHandler : IRequestHandler<UpdateCountryCommand, int>
     public async Task<int> Handle(UpdateCountryCommand command, CancellationToken cancellationToken)
     {
         var country = _context.Countries.Where(a => a.Id == command.Id).FirstOrDefault();
+
         if (country == null)
             return default;
 

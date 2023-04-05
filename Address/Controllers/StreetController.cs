@@ -1,10 +1,12 @@
 ﻿using Address.Commands.Streets;
 using Address.Queries.Streets;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Address.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 
