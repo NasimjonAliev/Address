@@ -1,6 +1,5 @@
 ﻿using Address.Commands.Countries;
 using Address.Queries.Countries;
-using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
