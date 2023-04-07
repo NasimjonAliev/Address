@@ -6,7 +6,7 @@ public class CreateStreetValidator : AbstractValidator<CreateStreetCommand>
 {
     public CreateStreetValidator()
     {
-        RuleFor(s => s.Number).NotNull().MinimumLength(30);
-        RuleFor(s => s.Name).NotNull().MinimumLength(50);
+        RuleFor(s => s.Number).NotNull().MaximumLength(30);
+        RuleFor(s => s.Name).NotNull().MaximumLength(50);
     }
 }

@@ -9,9 +9,11 @@ public class RegionConfiguration : IEntityTypeConfiguration<Region>
     public void Configure(EntityTypeBuilder<Region> builder)
     {
         builder.HasOne(x => x.Country)
-                .WithMany()
+                .WithMany(r => r.Regions)
                 .HasForeignKey(x => x.CountryId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
+
+        builder.HasIndex(c => c.Id);
     }
 }

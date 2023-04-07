@@ -17,6 +17,8 @@ public class StreetConfiguration : IEntityTypeConfiguration<Street>
             .HasForeignKey(s=>s.CityId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
+
+        builder.HasIndex(s => s.Id);
     }
 }
 

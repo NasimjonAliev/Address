@@ -12,41 +12,41 @@ namespace Address.Controllers;
 
 public class StreetController : Controller
 {
-    private readonly IMediator mediator;
+    private readonly IMediator _mediator;
 
     public StreetController(IMediator mediator)
     {
-        this.mediator = mediator;
+        _mediator = mediator;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAllStreet()
     {
-        return Ok(await mediator.Send(new GetAllStreetQuery()));
+        return Ok(await _mediator.Send(new GetAllStreetQuery()));
     }
 
     [HttpGet("Id")]
     public async Task<IActionResult> GetStreetById(int id)
     {
-        return Ok(await mediator.Send(new GetStreetByIdQuery { Id = id }));
+        return Ok(await _mediator.Send(new GetStreetByIdQuery { Id = id }));
     }
 
     [HttpPost]
     public async Task<IActionResult> CreateStreetCommand(CreateStreetCommand street)
     {
-        return Ok(await mediator.Send(street));
+        return Ok(await _mediator.Send(street));
     }
 
     [HttpPut("Id")]
     public async Task<IActionResult> UpdateStreetCommand(int id, UpdateStreetCommand command)
     {
         command.Id = id;
-        return Ok(await mediator.Send(command));
+        return Ok(await _mediator.Send(command));
     }
 
     [HttpDelete("Id")]
     public async Task<IActionResult> DeleteStreetCommand(int id)
     {
-        return Ok(await mediator.Send(new DeleteStreetCommand { Id = id }));
+        return Ok(await _mediator.Send(new DeleteStreetCommand { Id = id }));
     }
 }

@@ -12,29 +12,29 @@ namespace Address.Controllers;
 
 public class RegionController : Controller
 {
-    private readonly IMediator mediator;
+    private readonly IMediator _mediator;
 
     public RegionController(IMediator mediator)
     {
-        this.mediator = mediator;
+        _mediator = mediator;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAllRegion()
     {
-        return Ok(await mediator.Send(new GetAllRegionQuery()));
+        return Ok(await _mediator.Send(new GetAllRegionQuery()));
     }
 
     [HttpGet("Id")]
     public async Task<IActionResult> GetRegionById(int id)
     {
-        return Ok(await mediator.Send(new GetRegionByIdQuery{ Id = id }));
+        return Ok(await _mediator.Send(new GetRegionByIdQuery{ Id = id }));
     }
 
     [HttpPost]
     public async Task<IActionResult> AddRegion(CreateRegionCommand region)
     {
-        return Ok(await mediator.Send(region));
+        return Ok(await _mediator.Send(region));
     }
 
     [HttpPut("Id")]
@@ -42,13 +42,13 @@ public class RegionController : Controller
     {
         command.Id = id;
 
-        return Ok(await mediator.Send(command));
+        return Ok(await _mediator.Send(command));
     }
 
     [HttpDelete("Id")]
     public async Task<IActionResult> DeleteRegion(int id)
     {
-        return Ok(await mediator.Send(new DeleteRegionCommand { Id = id }));
+        return Ok(await _mediator.Send(new DeleteRegionCommand { Id = id }));
     }
 }
 
